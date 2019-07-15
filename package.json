@@ -1,11 +1,45 @@
 {
-  "name": "ck_custome",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
+    "name": "ck_custome",
+    "version": "1.0.0",
+    "description": "",
+    "private": true,
+    "scripts": {
+        "webpack": "webpack --config webpack.dev.js",
+        "start": "webpack-dev-server --open --config webpack.dev.js",
+        "build": "webpack --env.production=true --config webpack.prod.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "autoprefixer": "^9.6.1",
+        "babel-loader": "^8.0.6",
+        "babel-minify-webpack-plugin": "^0.3.1",
+        "clean-webpack-plugin": "^3.0.0",
+        "copy-webpack-plugin": "^5.0.3",
+        "css-loader": "^3.0.0",
+        "exports-loader": "^0.7.0",
+        "file-loader": "^4.0.0",
+        "html-loader": "^0.5.5",
+        "html-replace-webpack-plugin": "^2.5.5",
+        "html-webpack-plugin": "^3.2.0",
+        "html-webpack-reload-plugin": "^2.0.0",
+        "mini-css-extract-plugin": "^0.7.0",
+        "node-sass": "^4.12.0",
+        "optimize-css-assets-webpack-plugin": "^5.0.3",
+        "postcss-loader": "^3.0.0",
+        "raw-loader": "^3.0.0",
+        "sass-loader": "^7.1.0",
+        "style-loader": "^0.23.1",
+        "url-loader": "^2.0.1",
+        "webpack": "^4.35.3",
+        "webpack-cli": "^3.3.6",
+        "webpack-dev-server": "^3.7.2",
+        "webpack-merge": "^4.2.1"
+    },
+    "dependencies": {
+        "jquery": "^3.4.1",
+        "normalize.css": "^8.0.1",
+        "sass-resources-loader": "^2.0.1",
+        "slick-carousel": "^1.8.1"
+    }
 }
