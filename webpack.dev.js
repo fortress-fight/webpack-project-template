@@ -1,17 +1,18 @@
 const merge = require("webpack-merge");
 const common = require("./webpack.common");
 const webpack = require("webpack");
-const HtmlWebpackReloadPlugin = require("html-webpack-reload-plugin");
+const HtmlWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin");
 module.exports = (env, argv) => {
     return merge(common(env), {
         mode: "development",
         devtool: "eval-source-map",
         devServer: {
             contentBase: "./dist",
-            hot: true
+            hot: true,
+            watchContentBase: true
         },
         plugins: [
-            new HtmlWebpackReloadPlugin(),
+            new HtmlWebpackHarddiskPlugin(),
             new webpack.HotModuleReplacementPlugin(),
             new webpack.DefinePlugin({
                 "process.env.NODE_ENV": JSON.stringify("development")
@@ -41,20 +42,27 @@ module.exports = (env, argv) => {
                         {
                             loader: "css-loader",
                             options: {
-                                importLoaders: 1
+                                importLoaders: 1,
+                                sourceMap: true
                             }
                         },
                         {
                             loader: "postcss-loader",
                             options: {
                                 sourceMap: true,
-                                config: {
-                                    path: "postcss.config.js"
+                                options: {
+                                    sourceMap: true,
+                                    config: {
+                                        path: "postcss.config.js"
+                                    }
                                 }
                             }
                         },
                         {
-                            loader: "sass-loader" // 将 Sass 编译成 CSS
+                            loader: "sass-loader", // 将 Sass 编译成 CSS
+                            options: {
+                                sourceMap: true
+                            }
                         },
                         {
                             loader: "sass-resources-loader",
