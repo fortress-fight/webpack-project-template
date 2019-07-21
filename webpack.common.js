@@ -130,9 +130,9 @@ function setConfig(env, argv) {
                 template: path.join(__dirname, "./src/index.html"),
                 filename: path.join(__dirname, "./dist/index.html"),
                 inject: "head",
-                alwaysWriteToDisk: true,
-                chunks: "all",
-                sdk: "/mylib.js"
+                // alwaysWriteToDisk: true,
+                chunks: "all"
+                // sdk: "/mylib.js"
             }),
             /**
              * 自动加载

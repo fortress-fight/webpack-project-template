@@ -1,18 +1,18 @@
 const merge = require("webpack-merge");
 const common = require("./webpack.common");
 const webpack = require("webpack");
-const HtmlWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin");
+// const HtmlWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin");
 module.exports = (env, argv) => {
     return merge(common(env), {
         mode: "development",
         devtool: "eval-source-map",
         devServer: {
             contentBase: "./dist",
-            hot: true,
-            watchContentBase: true
+            hot: true
+            // watchContentBase: true
         },
         plugins: [
-            new HtmlWebpackHarddiskPlugin(),
+            // new HtmlWebpackHarddiskPlugin(),
             new webpack.HotModuleReplacementPlugin(),
             new webpack.DefinePlugin({
                 "process.env.NODE_ENV": JSON.stringify("development")

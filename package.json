@@ -5,16 +5,19 @@
     "private": true,
     "scripts": {
         "webpack": "webpack --config webpack.dev.js",
-        "start": "webpack-dev-server --open --config webpack.dev.js --hot",
-        "build": "webpack --env.production=true --config webpack.prod.js"
+        "start": "webpack-dev-server --open --config webpack.dev.js",
+        "build": "webpack --config webpack.prod.js"
     },
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "@commitlint/config-angular": "^8.1.0",
         "autoprefixer": "^9.6.1",
         "babel-loader": "^8.0.6",
         "babel-minify-webpack-plugin": "^0.3.1",
         "clean-webpack-plugin": "^3.0.0",
+        "commitizen": "^4.0.3",
+        "commitlint": "^8.1.0",
         "copy-webpack-plugin": "^5.0.3",
         "css-loader": "^3.0.0",
         "ejs-loader": "^0.3.3",
@@ -26,6 +29,7 @@
         "html-webpack-harddisk-plugin": "^1.0.1",
         "html-webpack-plugin": "^3.2.0",
         "html-webpack-reload-plugin": "^2.0.0",
+        "husky": "^3.0.1",
         "mini-css-extract-plugin": "^0.7.0",
         "node-sass": "^4.12.0",
         "optimize-css-assets-webpack-plugin": "^5.0.3",
