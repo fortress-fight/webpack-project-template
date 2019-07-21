@@ -1,5 +1,7 @@
+const fs = require("fs");
 const path = require("path");
 const glob = require("glob");
+const watch = require("watch");
 const webpack = require("webpack");
 
 const CopyWebpackPlugin = require("copy-webpack-plugin");
@@ -15,9 +17,12 @@ function setConfig(env, argv) {
     const ASSET_PATH = (env && env.ASSET_PATH) || "/";
 
     const webpack_config = {
-        entry: {
-            main: path.resolve(__dirname, "./src/app.js")
-        },
+        entry: Object.assign(
+            {
+                main: path.resolve(__dirname, "./src/app.js")
+            },
+            get_watch_html("./src/pages/")
+        ),
         output: {
             filename: "js/[name].js",
             path: path.resolve(__dirname, "./dist"),
@@ -217,7 +222,7 @@ function setConfig(env, argv) {
  * @returns entries
  */
 function get_pages(glob_path) {
-    let files = glob.sync(glob_path);
+    let files = glob.sync((glob_path += "*.html"));
     let result = [];
 
     files.forEach(item => {
@@ -246,20 +251,19 @@ function get_pages(glob_path) {
 
 function get_pages_config(
     glob_path = "./src/pages/",
-    target_path = "./dist/pages/"
+    target_path = "./pages/"
 ) {
     let result = [];
-    get_pages(glob_path).forEach(v => {
+
+    const HTMLPATHS = get_pages(glob_path).map(v => {
+        return v.entry;
+    });
+
+    HTMLPATHS.forEach(v => {
         result.push(
             new HtmlWebpackPlugin({
-                template: path.join(
-                    __dirname,
-                    glob_path + v.basename + ".html"
-                ),
-                filename: path.join(
-                    __dirname,
-                    target_path + v.basename + ".html"
-                ),
+                template: path.join(v),
+                filename: path.join(v.replace(glob_path, target_path)),
                 inject: "head",
                 // minify: {
                 //     removeComments: true,
@@ -269,9 +273,41 @@ function get_pages_config(
                 //     removeScriptTypeAttributes: true
                 // },
                 alwaysWriteToDisk: true,
-                chunks: ["lib", "main"]
+                chunks: "all"
             })
         );
     });
+    return result;
+}
+
+function get_watch_html({
+    main_page = "./src/index.html",
+    glob_path = "./src/pages/"
+}) {
+    let result = {};
+    if (process.env.NODE_ENV === "production") return result;
+
+    let watch_html_js = `import '${main_page}';`;
+
+    watch.createMonitor(glob_path, function(monitor) {
+        monitor.on("created", f => {
+            let extname = path.extname(f); //后缀
+            if (extname === ".html") {
+                get_watch_html();
+            }
+        });
+    });
+
+    const HTMLPATHS = get_pages(glob_path).map(v => {
+        return v.entry;
+    });
+
+    HTMLPATHS.forEach(v => {
+        watch_html_js += `import '${v}';`;
+    });
+    fs.writeFileSync("./watch_html.js", watch_html_js);
+
+    result.watch_html = path.resolve(__dirname, "./watch_html.js");
+
     return result;
 }

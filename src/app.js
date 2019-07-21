@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick.css";
 import "./script/main.js";
 // custom-css
 import "./style/main.scss";
+
 $(function() {
     console.log("running");
 });
